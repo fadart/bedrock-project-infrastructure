@@ -7,11 +7,15 @@ metadata:
     kubernetes.io/ingress.class: alb
     alb.ingress.kubernetes.io/scheme: internet-facing
     alb.ingress.kubernetes.io/target-type: ip
+    alb.ingress.kubernetes.io/listen-ports: '[{"HTTP": 80}, {"HTTPS": 443}]'
+    alb.ingress.kubernetes.io/certificate-arn: arn:aws:acm:us-east-1:035786426828:certificate/091de43b-383c-44b2-99ff-901aecbff237
+    alb.ingress.kubernetes.io/ssl-redirect: '443'
   labels:
     project: karatu-2025-capstone
 spec:
   rules:
-    - http:
+    - host: bedrock.fatimahonomoh.com
+      http:
         paths:
           - path: /
             pathType: Prefix

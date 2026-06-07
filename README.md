@@ -134,29 +134,29 @@ helm install aws-load-balancer-controller eks/aws-load-balancer-controller \
 ```bash
 kubectl apply -f kubernetes/db-secrets.yaml
 
-helm upgrade --install retail-store helm/retail-store \
+helm upgrade --install retail-store helm/retail-store-upstream \
   --namespace retail-app \
   --create-namespace \
-  --values helm/retail-store/values.yaml
+  --values helm/retail-store-upstream/values.yaml
 ```
 
 ---
 
 ## Helm deployment (bonus)
 
-The retail store application is packaged as a Helm chart located at `helm/retail-store/`.
+The retail store application is packaged as a Helm chart located at `helm/retail-store-upstream/`.
 
 Deploy with a single command:
 
 ```bash
-helm upgrade --install retail-store helm/retail-store \
+helm upgrade --install retail-store helm/retail-store-upstream \
   --namespace retail-app \
   --create-namespace \
-  --values helm/retail-store/values.yaml
+  --values helm/retail-store-upstream/values.yaml
 ```
 
 ### Chart structure
-helm/retail-store/
+helm/retail-store-upstream/
 ├── Chart.yaml
 ├── values.yaml
 └── templates/
@@ -169,7 +169,7 @@ helm/retail-store/
 ├── assets.yaml         # Assets service
 ├── db-services.yaml    # ExternalName services for RDS
 └── ingress.yaml        # ALB ingress
-Override database endpoints or other settings by editing `helm/retail-store/values.yaml`.
+Override database endpoints or other settings by editing `helm/retail-store-upstream/values.yaml`.
 
 ---
 
@@ -189,7 +189,7 @@ AWS credentials are stored as GitHub Actions repository secrets and never hardco
 
 ## Application
 
-**URL:** `http://k8s-retailap-retailst-17d19cf248-2074648872.us-east-1.elb.amazonaws.com`
+**URL:** `https://bedrock.fatimahonomoh.com`
 
 | Service | Description |
 |---|---|
@@ -249,4 +249,16 @@ All AWS resources tagged: `Project: karatu-2025-capstone`
 
 - CI/CD IAM user should use scoped permissions instead of AdministratorAccess
 - RDS passwords should be rotated via AWS Secrets Manager
-- HTTPS/TLS termination at ALB using ACM certificate
+
+---
+
+## Advanced networking & ingress
+
+The application is exposed securely over HTTPS using a custom domain and ACM certificate.
+
+- **Custom domain:** `bedrock.fatimahonomoh.com`
+- **ACM certificate:** `arn:aws:acm:us-east-1:035786426828:certificate/091de43b-383c-44b2-99ff-901aecbff237`
+- **TLS termination:** At the ALB on port 443
+- **HTTP redirect:** All HTTP traffic redirects to HTTPS automatically
+
+**Application URL:** `https://bedrock.fatimahonomoh.com`
