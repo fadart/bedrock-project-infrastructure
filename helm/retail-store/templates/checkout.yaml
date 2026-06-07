@@ -1,0 +1,38 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: checkout
+  namespace: {{ .Values.namespace }}
+  labels:
+    app: checkout
+    project: karatu-2025-capstone
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: checkout
+  template:
+    metadata:
+      labels:
+        app: checkout
+    spec:
+      containers:
+        - name: checkout
+          image: public.ecr.aws/aws-containers/retail-store-sample-checkout:0.8.3
+          ports:
+            - containerPort: 8080
+          env:
+            - name: ENDPOINTS_ORDERS
+              value: http://orders:80
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: checkout
+  namespace: {{ .Values.namespace }}
+spec:
+  selector:
+    app: checkout
+  ports:
+    - port: 80
+      targetPort: 8080

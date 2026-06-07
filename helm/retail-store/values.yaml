@@ -1,0 +1,27 @@
+namespace: retail-app
+
+catalog:
+  db:
+    host: bedrock-mysql.cofu0wcick4o.us-east-1.rds.amazonaws.com
+    port: 3306
+    name: retailstore
+    username: admin
+    passwordSecret: catalog-db-secret
+
+orders:
+  db:
+    host: bedrock-postgres.cofu0wcick4o.us-east-1.rds.amazonaws.com
+    port: 5432
+    name: retailstore
+    username: dbadmin
+    passwordSecret: orders-db-secret
+
+carts:
+  dynamodb:
+    tableName: bedrock-retail-store
+    region: us-east-1
+
+ingress:
+  enabled: true
+  scheme: internet-facing
+  targetType: ip

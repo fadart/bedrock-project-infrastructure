@@ -1,0 +1,49 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: catalog
+  namespace: {{ .Values.namespace }}
+  labels:
+    app: catalog
+    project: karatu-2025-capstone
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: catalog
+  template:
+    metadata:
+      labels:
+        app: catalog
+    spec:
+      containers:
+        - name: catalog
+          image: public.ecr.aws/aws-containers/retail-store-sample-catalog:0.8.3
+          ports:
+            - containerPort: 8080
+          env:
+            - name: DB_HOST
+              value: {{ .Values.catalog.db.host }}
+            - name: DB_PORT
+              value: "{{ .Values.catalog.db.port }}"
+            - name: DB_NAME
+              value: {{ .Values.catalog.db.name }}
+            - name: DB_USER
+              value: {{ .Values.catalog.db.username }}
+            - name: DB_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.catalog.db.passwordSecret }}
+                  key: password
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: catalog
+  namespace: {{ .Values.namespace }}
+spec:
+  selector:
+    app: catalog
+  ports:
+    - port: 80
+      targetPort: 8080

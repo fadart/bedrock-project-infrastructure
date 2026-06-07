@@ -1,0 +1,46 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ui
+  namespace: {{ .Values.namespace }}
+  labels:
+    app: ui
+    project: karatu-2025-capstone
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: ui
+  template:
+    metadata:
+      labels:
+        app: ui
+    spec:
+      containers:
+        - name: ui
+          image: public.ecr.aws/aws-containers/retail-store-sample-ui:0.8.3
+          ports:
+            - containerPort: 8080
+          env:
+            - name: ENDPOINTS_CATALOG
+              value: http://catalog:80
+            - name: ENDPOINTS_CARTS
+              value: http://carts:80
+            - name: ENDPOINTS_CHECKOUT
+              value: http://checkout:80
+            - name: ENDPOINTS_ORDERS
+              value: http://orders:80
+            - name: ENDPOINTS_ASSETS
+              value: http://assets:80
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: ui
+  namespace: {{ .Values.namespace }}
+spec:
+  selector:
+    app: ui
+  ports:
+    - port: 80
+      targetPort: 8080

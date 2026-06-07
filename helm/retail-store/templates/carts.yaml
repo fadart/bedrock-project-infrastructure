@@ -1,0 +1,42 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: carts
+  namespace: {{ .Values.namespace }}
+  labels:
+    app: carts
+    project: karatu-2025-capstone
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: carts
+  template:
+    metadata:
+      labels:
+        app: carts
+    spec:
+      containers:
+        - name: carts
+          image: public.ecr.aws/aws-containers/retail-store-sample-cart:0.8.3
+          ports:
+            - containerPort: 8080
+          env:
+            - name: CARTS_DYNAMODB_TABLENAME
+              value: {{ .Values.carts.dynamodb.tableName }}
+            - name: CARTS_DYNAMODB_REGION
+              value: {{ .Values.carts.dynamodb.region }}
+            - name: CARTS_DYNAMODB_ENDPOINT
+              value: ""
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: carts
+  namespace: {{ .Values.namespace }}
+spec:
+  selector:
+    app: carts
+  ports:
+    - port: 80
+      targetPort: 8080
