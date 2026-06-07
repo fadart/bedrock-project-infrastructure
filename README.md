@@ -1,12 +1,5 @@
 # Project Bedrock — InnovateMart EKS Infrastructure
 
-**Student ID:** ALT/SOE/025/3604  
-**Cohort:** Karatu 2025 — Third Semester Capstone  
-**AWS Region:** us-east-1
-
----
-
-## Overview
 
 This repository contains the infrastructure-as-code and application deployment configuration for InnovateMart's production-grade Kubernetes environment on AWS EKS. The project provisions a secure, observable, and automated cloud infrastructure for the Retail Store Sample Application.
 
