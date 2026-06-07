@@ -1,0 +1,24 @@
+# Disable in-cluster databases
+mysql:
+  enabled: false
+
+postgresql:
+  enabled: false
+
+catalog:
+  db:
+    endpoint: MYSQL_ENDPOINT_PLACEHOLDER
+    name: retailstore
+    username: admin
+
+orders:
+  db:
+    endpoint: POSTGRES_ENDPOINT_PLACEHOLDER
+    name: retailstore
+    username: dbadmin
+
+carts:
+  dynamodb:
+    tableName: bedrock-retail-store
+    region: us-east-1
+    dynamodbEndpoint: ""

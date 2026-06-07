@@ -35,7 +35,7 @@ module "rds_postgres" {
   engine                     = "postgres"
   engine_version             = "15"
   db_name                    = "retailstore"
-  username                   = "admin"
+  username                   = "dbadmin"
   password                   = var.postgres_password
   port                       = 5432
   vpc_id                     = module.vpc.vpc_id
