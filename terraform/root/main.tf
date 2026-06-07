@@ -52,8 +52,7 @@ module "dynamodb" {
 module "s3_lambda" {
   source = "../modules/s3-lambda"
 
-  bucket_name     = "bedrock-assets-${var.student_id}"
-  lambda_zip_path = "../../lambda/index.zip"
+  bucket_name = "bedrock-assets-${var.student_id}"
 }
 
 module "iam" {

@@ -1,3 +1,30 @@
+data "archive_file" "lambda" {
+  type        = "zip"
+  output_path = "${path.module}/lambda.zip"
+
+  source {
+    content  = <<-EOT
+      import json
+      import logging
+
+      logger = logging.getLogger()
+      logger.setLevel(logging.INFO)
+
+      def handler(event, context):
+          for record in event['Records']:
+              bucket = record['s3']['bucket']['name']
+              key = record['s3']['object']['key']
+              logger.info(f"Image received: {key}")
+              print(f"Image received: {key}")
+          return {
+              'statusCode': 200,
+              'body': json.dumps('File processed successfully')
+          }
+    EOT
+    filename = "index.py"
+  }
+}
+
 resource "aws_s3_bucket" "assets" {
   bucket = var.bucket_name
 
@@ -41,13 +68,13 @@ resource "aws_iam_role_policy_attachment" "lambda_basic" {
 }
 
 resource "aws_lambda_function" "asset_processor" {
-  filename      = var.lambda_zip_path
+  filename      = data.archive_file.lambda.output_path
   function_name = "bedrock-asset-processor"
   role          = aws_iam_role.lambda.arn
   handler       = "index.handler"
   runtime       = "python3.11"
 
-  source_code_hash = filebase64sha256(var.lambda_zip_path)
+  source_code_hash = data.archive_file.lambda.output_base64sha256
 
   tags = {
     Project = "karatu-2025-capstone"
