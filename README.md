@@ -35,35 +35,40 @@ Key capabilities:
 .
 ├── .github/
 │   └── workflows/
-│       └── terraform.yml        # CI/CD pipeline
+│       └── terraform.yml              # CI/CD pipeline
+│
 ├── helm/
-│   └── retail-store/            # Helm chart for app deployment
+│   └── retail-store/                  # Helm chart for app deployment
 │       ├── Chart.yaml
 │       ├── values.yaml
 │       └── templates/
-├── kubernetes/
-│   ├── db-secrets.yaml          # Database credentials as K8s secrets
-│   ├── rbac.yaml                # RBAC for bedrock-dev-view
-│   ├── ingress.yaml             # ALB ingress resource
-│   └── namespace.yaml
+│           └── kubernetes/
+│               ├── namespace.yaml
+│               ├── ingress.yaml        # ALB ingress resource
+│               ├── rbac.yaml           # RBAC for bedrock-dev-view
+│               └── db-secrets.yaml     # K8s secrets for DB credentials
+│
 ├── lambda/
-│   └── index.py                 # Lambda function code
+│   └── index.py                       # Lambda function code
+│
 ├── terraform/
-│   ├── modules/
-│   │   ├── vpc/                 # VPC, subnets, NAT gateway
-│   │   ├── eks/                 # EKS cluster and node group
-│   │   ├── rds/                 # RDS MySQL and PostgreSQL
-│   │   ├── dynamodb/            # DynamoDB table
-│   │   ├── iam/                 # bedrock-dev-view IAM user
-│   │   └── s3-lambda/           # S3 bucket and Lambda function
-│   └── root/                    # Terraform entry point
-│       ├── backend.tf
-│       ├── main.tf
-│       ├── outputs.tf
-│       ├── providers.tf
-│       ├── variables.tf
-│       └── versions.tf
-└── grading.json                 # Terraform outputs for grading script
+│   ├── root/                          # Terraform entry point
+│   │   ├── main.tf
+│   │   ├── variables.tf
+│   │   ├── outputs.tf
+│   │   ├── providers.tf
+│   │   ├── backend.tf
+│   │   └── versions.tf
+│   │
+│   └── modules/
+│       ├── vpc/                       # VPC, subnets, NAT gateway
+│       ├── eks/                       # EKS cluster and node group
+│       ├── rds/                       # MySQL and PostgreSQL
+│       ├── dynamodb/                  # DynamoDB table
+│       ├── iam/                       # IAM user (bedrock-dev-view)
+│       └── s3-lambda/                 # S3 bucket + Lambda integration
+│
+└── grading.json                        # Terraform outputs for grading script
 ---
 
 ## Prerequisites
