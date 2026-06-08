@@ -3,6 +3,17 @@
 
 This repository contains the infrastructure-as-code and application deployment configuration for InnovateMart's production-grade Kubernetes environment on AWS EKS. The project provisions a secure, observable, and automated cloud infrastructure for the Retail Store Sample Application.
 
+Key capabilities:
+
+- **Infrastructure as Code** — all AWS resources provisioned via Terraform with remote state
+- **Managed databases** — RDS MySQL, RDS PostgreSQL, and DynamoDB replace in-cluster databases
+- **Secure secrets** — database credentials stored in AWS SSM Parameter Store, never hardcoded
+- **Observability** — CloudWatch Observability EKS add-on with FluentBit for container and control plane logs
+- **Serverless** — S3 event notifications trigger a Lambda function that logs to CloudWatch
+- **HTTPS** — TLS terminated at the ALB using an ACM certificate on a custom domain
+- **CI/CD** — GitHub Actions automates `terraform plan` on PRs and `terraform apply` on merge
+
+
 ---
 
 ## Architecture
@@ -15,7 +26,8 @@ This repository contains the infrastructure-as-code and application deployment c
 - **Observability:** CloudWatch Observability EKS add-on with FluentBit ships container and control plane logs to CloudWatch.
 - **Security:** IAM user `bedrock-dev-view` has console read-only access and Kubernetes RBAC view access scoped to the `retail-app` namespace.
 
-See the architecture diagram in the submission document.
+
+<img width="2522" height="2282" alt="image" src="https://github.com/user-attachments/assets/ceb7d73a-91c4-4ce1-8b0f-b5a863f1410b" />
 
 ---
 
@@ -170,9 +182,18 @@ Override database endpoints or other settings by editing `helm/retail-store-upst
 
 The GitHub Actions pipeline automates all infrastructure changes.
 
-**How to trigger:**
-- Open a Pull Request against `main` → `terraform plan` runs automatically and posts the plan output as a PR comment
-- Merge the PR to `main` → `terraform apply` runs automatically
+| Trigger | Action |
+|---|---|
+| Pull Request opened against `main` | Runs `terraform plan` and posts output as a PR comment |
+| Pull Request merged to `main` | Runs `terraform apply` automatically |
+
+### How to trigger
+
+1. Create a feature branch and make changes to Terraform files
+2. Open a Pull Request against `main`
+3. Review the plan output posted as a PR comment
+4. Merge the PR to apply changes
+
 
 **Pipeline URL:** https://github.com/fadart/bedrock-project-infrastructure/actions
 
@@ -221,27 +242,6 @@ AWS credentials are stored as GitHub Actions repository secrets and never hardco
 | `bedrock-dev-view` K8s access | `view` ClusterRole in `retail-app` namespace |
 | RDS instances | Private subnets, EKS nodes access only |
 | Database credentials | Kubernetes secrets, never hardcoded |
-
----
-
-## Grading credentials
-
-Console login URL: `https://035786426828.signin.aws.amazon.com/console`  
-Username: `bedrock-dev-view`  
-Access Key ID, Secret Access Key, and console password are provided in the submission document.
-
----
-
-## Resource tagging
-
-All AWS resources tagged: `Project: karatu-2025-capstone`
-
----
-
-## Known improvements
-
-- CI/CD IAM user should use scoped permissions instead of AdministratorAccess
-- RDS passwords should be rotated via AWS Secrets Manager
 
 ---
 
