@@ -7,7 +7,7 @@
   "cluster_endpoint": {
     "sensitive": false,
     "type": "string",
-    "value": "https://E973EB071799A184D2F760F651A262E6.gr7.us-east-1.eks.amazonaws.com"
+    "value": "https://63D265948220EF227F8F586B984F53F3.gr7.us-east-1.eks.amazonaws.com"
   },
   "cluster_name": {
     "sensitive": false,
@@ -17,17 +17,17 @@
   "dev_view_access_key_id": {
     "sensitive": false,
     "type": "string",
-    "value": "AKIAQQVIJRHGHWJ2QYEZ"
+    "value": "AKIAQQVIJRHGPA2XZW6X"
   },
   "dev_view_password": {
     "sensitive": true,
     "type": "string",
-    "value": "S|6Q2sP3!u-H=qPCvtE!"
+    "value": "YL_)=9vLwySa[=4%H5Rj"
   },
   "dev_view_secret_access_key": {
     "sensitive": true,
     "type": "string",
-    "value": "zMsDufXdbyVYarjQ9yNh8V4jBvwrGFwS4H7yF9wA"
+    "value": "yPtTb42/jH8ssISvh/4R5NUGZ1yIVexkmMR/LLsK"
   },
   "mysql_endpoint": {
     "sensitive": false,
@@ -47,6 +47,6 @@
   "vpc_id": {
     "sensitive": false,
     "type": "string",
-    "value": "vpc-0b6dc0205dd7068d0"
+    "value": "vpc-083ba71a52e272218"
   }
 }
