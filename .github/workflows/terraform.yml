@@ -37,6 +37,11 @@ jobs:
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: us-east-1
 
+      - name: Verify AWS identity
+        run: |
+          aws sts get-caller-identity
+          aws configure list
+
       - name: Setup Terraform
         uses: hashicorp/setup-terraform@v3
         with:
